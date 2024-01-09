@@ -1,0 +1,6 @@
+@PokeApi.Server_HostAddress = http://localhost:5135
+
+GET {{PokeApi.Server_HostAddress}}/pokemons/
+Accept: application/json
+
+###
