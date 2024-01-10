@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 using PokeApi.Server.Models;
 using PokeApi.Server.Services.Interfaces;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace PokeApi.Server.Services.Classes
@@ -10,7 +9,7 @@ namespace PokeApi.Server.Services.Classes
     {
         private const string POKEMON_API_URL = "https://pokeapi.co/api/v2/pokemon";
 
-        private async Task<int> GetPokemonsCount()
+        private async Task<int> GetPokemonsCountAsync()
         {
             int count = 0;
 
@@ -38,7 +37,7 @@ namespace PokeApi.Server.Services.Classes
             return -1;
         }
 
-        public async Task<Pokemon> GetPokemonInfo(int id)
+        public async Task<Pokemon> GetPokemonInfoAsync(int id)
         {
             using (var client = new HttpClient())
             {
@@ -61,9 +60,9 @@ namespace PokeApi.Server.Services.Classes
             }
         }
 
-        public async Task<List<Pokemon>> GetPokemons(string startWith = "")
+        public async Task<List<Pokemon>> GetPokemonsAsync(string startWith = "")
         {
-            var pokemonsCount = await GetPokemonsCount();
+            var pokemonsCount = await GetPokemonsCountAsync();
             var pokemons = new List<Pokemon>();
 
             using (var client = new HttpClient())

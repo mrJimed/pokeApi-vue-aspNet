@@ -18,17 +18,17 @@ namespace PokeApi.Server.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<Pokemon>> GetPokemons([FromQuery] string startWith = "")
+        public async Task<IEnumerable<Pokemon>> GetPokemonsAsync([FromQuery] string startWith = "")
         {
-            var pokemons = await pokemonService.GetPokemons(startWith);
+            var pokemons = await pokemonService.GetPokemonsAsync(startWith);
             logger.LogInformation($"Кол-во покемонов: {pokemons.Count}");
             return pokemons;
         }
 
         [HttpGet("{id:int}")]
-        public async Task<Pokemon> GetPokemonInfo(int id)
+        public async Task<Pokemon> GetPokemonInfoAsync(int id)
         {
-            var pokemonInfo = await pokemonService.GetPokemonInfo(id);
+            var pokemonInfo = await pokemonService.GetPokemonInfoAsync(id);
             logger.LogInformation(string.Format("Покемон с Id = {0} {1}", id, pokemonInfo != null ? "найден" : "не найден"));
             return pokemonInfo;
         }
