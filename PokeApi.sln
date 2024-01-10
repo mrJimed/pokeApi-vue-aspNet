@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34310.174
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokeApi.Server", "PokeApi.Server\PokeApi.Server.csproj", "{63A944FB-A588-4ED6-A55D-82F2E1720882}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PokeApi.Server", "PokeApi.Server\PokeApi.Server.csproj", "{63A944FB-A588-4ED6-A55D-82F2E1720882}"
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "pokeapi.client", "pokeapi.client\pokeapi.client.esproj", "{CA1684F6-1436-4C99-A577-7C0BA474A280}"
 EndProject

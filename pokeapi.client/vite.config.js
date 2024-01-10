@@ -53,6 +53,10 @@ export default defineConfig({
             '^/pokemons': {
                 target,
                 secure: false
+            },
+            '^/user': {
+                target,
+                secure: false
             }
         },
         port: 5173,
