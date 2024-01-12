@@ -4,6 +4,7 @@
 * Отображение данных (имя, hp и сила атаки)
 * Пагинация с возможностью выбора кол-ва отображаемых покемонов на странице
 * Аутентификация и регистрация
+* Кэширование полученных покемонов 
 
 # Frontend
 * Vue 3
@@ -11,9 +12,11 @@
 * AutoAnimate
 * lodash.debounce
 * Tailwind
+* Axios
 
 # Backend
 * C# .NET 8
 * ASP NET Core MVC
 * Newtonsoft.Json
-* EntityFrameworkCore
+* Entity Framework Core
+* StackExchangeRedis
