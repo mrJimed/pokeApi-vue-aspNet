@@ -11,10 +11,10 @@ namespace PokeApi.Server.Controllers
     [Route("user")]
     public class UserController : ControllerBase
     {
-        private ILogger<PokemonsController> logger;
+        private ILogger<UserController> logger;
         private IUserService userService;
 
-        public UserController([FromServices] IUserService userService, [FromServices] ILogger<PokemonsController> logger)
+        public UserController([FromServices] IUserService userService, [FromServices] ILogger<UserController> logger)
         {
             this.userService = userService;
             this.logger = logger;
