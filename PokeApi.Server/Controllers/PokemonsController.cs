@@ -40,6 +40,15 @@ namespace PokeApi.Server.Controllers
             return pokemon;
         }
 
+        [HttpGet("random")]
+        public async Task<int> GetRandomPokemonIdAsync(int id)
+        {
+            var pokemons = await pokemonService.GetPokemonsAsync();
+            var rnd = new Random();
+            var randomIndex = rnd.Next(pokemons.Count);
+            return pokemons[randomIndex].Id;
+        }
+
         private async Task AddPokemonToCacheAsync(Pokemon pokemon)
         {
             var pokemonJson = JsonSerializer.Serialize(pokemon);

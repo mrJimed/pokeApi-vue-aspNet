@@ -11,6 +11,7 @@ defineProps({
     <Card
       v-for="item in items"
       v-bind:key="item.id"
+      :itemId="item.id"
       :name="item.name"
       :imageUrl="item.imageUrl"
       :hp="item.hp"

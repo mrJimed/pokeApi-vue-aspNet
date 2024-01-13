@@ -17,3 +17,12 @@ export async function getPokemonInfo(id) {
         console.log(err);
     }
 }
+
+export async function getRandomPokemonId() {
+    try {
+        const { data: pokemonId } = await axios.get('/pokemons/random');
+        return pokemonId;
+    } catch (err) {
+        console.log(err);
+    }
+}
