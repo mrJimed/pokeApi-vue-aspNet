@@ -13,6 +13,12 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 var redisConfig = builder.Configuration.GetSection("Redis:Configuration").Value;
 var redisInstanceName = builder.Configuration.GetSection("Redis:InstanceName").Value;
 
+// Mail config
+var mailHost = builder.Configuration.GetSection("Mail:Host").Value;
+var mailPort = int.Parse(builder.Configuration.GetSection("Mail:Port").Value);
+var mailFrom = builder.Configuration.GetSection("Mail:From").Value;
+var mailPassword = builder.Configuration.GetSection("Mail:Password").Value;
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -35,6 +41,7 @@ builder.Services.AddStackExchangeRedisCache(options => {
 builder.Services.AddDbContext<PokeApiDbContext>(options => options.UseNpgsql(connectionString));
 builder.Services.AddTransient<IPokemonService, PokemonService>();
 builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddSingleton<IMailService>(new MailService(mailFrom, mailPassword, mailHost, mailPort));
 
 var app = builder.Build();
 

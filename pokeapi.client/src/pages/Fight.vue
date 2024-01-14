@@ -2,7 +2,11 @@
 import { computed, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 
-import FightCard from "@/components/FightCard.vue";
+import InputModal from "../components/InputModal.vue";
+import FightCard from "../components/FightCard.vue";
+import FightStatistic from "../components/FightStatistic.vue";
+
+import { sendMessage } from "../services/mailService.js";
 import {
   getPokemonInfo,
   getRandomPokemonId,
@@ -13,6 +17,7 @@ const myPoke = ref({});
 const fightStat = ref([]);
 const round = ref(1);
 const enemyPoke = ref({});
+const sendStatisticFormVisible = ref(false);
 
 const isFinished = computed(() => {
   return enemyPoke.value.hp === 0 || myPoke.value.hp === 0;
@@ -24,6 +29,20 @@ onMounted(async () => {
   myPoke.value = await preparePokemon(myPokemonId);
   enemyPoke.value = await preparePokemon(enemyPokemonId);
 });
+
+function onCloseSendStatisticForm() {
+  sendStatisticFormVisible.value = false;
+}
+
+async function onSendStatisticForm(toEmail) {
+  const result = fightStat.value.at(-1);
+  await sendMessage(
+    toEmail,
+    `Победил: ${result.winPokemon.name}\n` + `Кол-во раундов: ${result.round}`,
+    `Бой: ${myPoke.value.name} vs ${enemyPoke.value.name}`
+  );
+  sendStatisticFormVisible.value = false;
+}
 
 async function preparePokemon(pokemonId) {
   const pokemon = await getPokemonInfo(pokemonId);
@@ -39,8 +58,8 @@ function fightResult(winPokemon, losePokemon, isMyPokemonWin) {
 
   fightStat.value.push({
     round: round.value,
-    winPokemon: winPokemon.value.name,
-    losePokemon: losePokemon.value.name,
+    winPokemon: winPokemon.value,
+    losePokemon: losePokemon.value,
     isMyPokemonWin: isMyPokemonWin,
   });
 }
@@ -67,35 +86,23 @@ function onAttack() {
     ></FightCard>
 
     <div class="flex flex-col items-center">
-      <table class="mb-10">
-        <thead>
-          <tr class="text-lg">
-            <th class="px-4 border border-slate-300 rounded-md">Раунд</th>
-            <th class="px-4 border border-slate-300 rounded-md">Победил</th>
-            <th class="px-4 border border-slate-300 rounded-md">Проиграл</th>
-          </tr>
-        </thead>
-        <tbody v-auto-animate>
-          <tr
-            v-for="stat in fightStat"
-            :key="`stat_${stat.round}`"
-            class="text-center"
-            :class="stat.isMyPokemonWin ? 'bg-green-300' : 'bg-red-300'"
-          >
-            <td class="px-3 border border-slate-300">{{ stat.round }}</td>
-            <td class="px-3 border border-slate-300">{{ stat.winPokemon }}</td>
-            <td class="px-3 border border-slate-300">{{ stat.losePokemon }}</td>
-          </tr>
-        </tbody>
-      </table>
-
+      <FightStatistic class="mb-10" :fightStat="fightStat"></FightStatistic>
       <button
-        :disabled="isFinished"
-        class="bg-red-500 text-white py-2 px-4 rounded-md disabled:bg-red-300"
+        v-if="!isFinished"
+        class="bg-red-500 text-white py-2 px-4 rounded-md"
         type="button"
         @click="onAttack"
       >
         Удар
+      </button>
+
+      <button
+        v-else
+        class="bg-blue-400 text-white py-2 px-4 rounded-md"
+        type="button"
+        @click="sendStatisticFormVisible = true"
+      >
+        Отправить результат
       </button>
     </div>
 
@@ -106,5 +113,14 @@ function onAttack() {
       :maxHp="enemyPoke.maxHp"
       :attackPower="enemyPoke.attackPower"
     ></FightCard>
+
+    <InputModal
+      v-if="sendStatisticFormVisible"
+      title="Окно отправки статистики"
+      inputPlaceholder="Введите email"
+      inputType="email"
+      @onClose="onCloseSendStatisticForm"
+      @onSend="onSendStatisticForm"
+    ></InputModal>
   </div>
 </template>
