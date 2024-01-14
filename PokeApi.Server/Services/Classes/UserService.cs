@@ -50,6 +50,19 @@ namespace PokeApi.Server.Services.Classes
             return null;
         }
 
+        public void ResetPassword(string email, string newPassword)
+        {
+            var user = GetUser(email);
+            if(user != null)
+            {
+                var newSalt = RandomNumberGenerator.GetBytes(16);
+                user.Salt = Convert.ToBase64String(newSalt);
+                user.Password = CreateHashPassword(newPassword, newSalt);
+                pokeDbContext.Users.Update(user);
+                pokeDbContext.SaveChanges();
+            }
+        }
+
         public bool IsUserExists(string email)
         {
             return pokeDbContext.Users.FirstOrDefault(user => email.Equals(user.Email)) != null;

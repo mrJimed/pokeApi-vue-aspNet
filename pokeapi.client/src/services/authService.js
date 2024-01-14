@@ -43,3 +43,16 @@ export async function getCurrentUser() {
         console.log(err);
     }
 }
+
+export async function resetUserPassword(email, newPassword) {
+    try {
+        const updateUser = {
+            email: email,
+            password: newPassword
+        };
+        await axios.put('user/reset-password', updateUser);
+    }
+    catch (err) {
+        console.log(err);
+    }
+}

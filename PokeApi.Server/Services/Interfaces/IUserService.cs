@@ -8,5 +8,6 @@ namespace PokeApi.Server.Services.Interfaces
         public User? RegistrationUser(User newUser);
         User? LoginUser(User loginUser);
         User? GetUser(string email);
+        void ResetPassword(string email, string newPassword);
     }
 }

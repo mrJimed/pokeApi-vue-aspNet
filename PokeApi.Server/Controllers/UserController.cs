@@ -38,6 +38,12 @@ namespace PokeApi.Server.Controllers
             return user;
         }
 
+        [HttpPut("reset-password")]
+        public void ResetPassword(User updateUser)
+        {
+            userService.ResetPassword(updateUser.Email, updateUser.Password);
+        }
+
         [HttpPost("logout")]
         public async void LogoutAsync()
         {
