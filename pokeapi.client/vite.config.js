@@ -57,6 +57,10 @@ export default defineConfig({
             '^/user': {
                 target,
                 secure: false
+            },
+            '^/mail': {
+                target,
+                secure: false
             }
         },
         port: 5173,
