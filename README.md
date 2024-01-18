@@ -24,3 +24,6 @@
 * Entity Framework Core
 * StackExchangeRedis
 * MailKit
+
+# Tests
+* xUnit
