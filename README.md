@@ -2,6 +2,7 @@
 
 # Frontend
 * Vue.js 3
+* Vue Router
 * Axios
 * Tailwind
 
