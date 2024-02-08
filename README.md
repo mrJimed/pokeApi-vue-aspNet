@@ -3,6 +3,7 @@
 # Frontend
 * Vue.js 3
 * Axios
+* Tailwind
 
 # Backend
 * C# .NET 8
