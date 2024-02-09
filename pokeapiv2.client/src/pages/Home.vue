@@ -27,12 +27,16 @@ watch(currentPage, () => {
 });
 
 // Pagination functions
-function nextPageClick() {
+function onNextPageClick() {
   currentPage.value++;
 }
 
-function prevPageClick() {
+function onPrevPageClick() {
   currentPage.value--;
+}
+
+function onChangeCurrentPage(newCurrentPage) {
+  currentPage.value = newCurrentPage;
 }
 </script>
 
@@ -54,7 +58,8 @@ function prevPageClick() {
   <Pagination
     :pageCounts="pageCounts"
     :currentPage="currentPage"
-    @nextPageClick="nextPageClick"
-    @prevPageClick="prevPageClick"
+    @onNextPageClick="onNextPageClick"
+    @onPrevPageClick="onPrevPageClick"
+    @onChangeCurrentPage="onChangeCurrentPage"
   ></Pagination>
 </template>
