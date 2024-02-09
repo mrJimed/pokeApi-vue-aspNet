@@ -50,7 +50,7 @@ export default defineConfig({
     },
     server: {
         proxy: {
-            '^/weatherforecast': {
+            '^/pokemons': {
                 target,
                 secure: false
             }
