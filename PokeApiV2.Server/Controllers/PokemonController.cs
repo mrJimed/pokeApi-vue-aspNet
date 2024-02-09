@@ -18,9 +18,13 @@ namespace PokeApiV2.Server.Controllers
         }
 
         [HttpGet]
-        public async Task<List<Pokemon>> GetAllPokemonsAsync()
+        public async Task<List<Pokemon>> GetAllPokemonsAsync(string sortIn)
         {
             var pokemons = await pokemonService.GetPokemonsAsync();
+            if ("asc".Equals(sortIn))
+                return pokemons.OrderBy(p => p.Name).ToList();
+            else if ("desc".Equals(sortIn))
+                return pokemons.OrderByDescending(p => p.Name).ToList();
             return pokemons;
         }
     }

@@ -9,14 +9,20 @@ const allPokemons = ref([]);
 const pagePokemons = ref([]);
 const currentPage = ref(1);
 const countPageItems = ref(12);
+const sortIn = ref("default");
 
 const pageCounts = computed(() =>
   Math.ceil(allPokemons.value.length / countPageItems.value)
 );
 
 onMounted(async () => {
-  allPokemons.value = await getAllPokemonsAsync();
-  pagePokemons.value = allPokemons.value.slice(0, countPageItems.value);
+  await sortPokemonsAsync();
+});
+
+// // watch on change sortIn variable
+watch(sortIn, async () => {
+  await sortPokemonsAsync();
+  currentPage.value = 1;
 });
 
 // watch on change currentPage variable
@@ -44,6 +50,12 @@ function onPrevPageClick() {
 function onChangeCurrentPage(newCurrentPage) {
   currentPage.value = newCurrentPage;
 }
+
+// Sort functions
+async function sortPokemonsAsync() {
+  allPokemons.value = await getAllPokemonsAsync(sortIn.value);
+  pagePokemons.value = allPokemons.value.slice(0, countPageItems.value);
+}
 </script>
 
 <template>
@@ -52,7 +64,17 @@ function onChangeCurrentPage(newCurrentPage) {
       Список покемонов ({{ allPokemons.length }})
     </h2>
 
-    <div class="flex justify-between items-center select-none">
+    <div class="flex justify-between items-center gap-4 select-none">
+      <div class="flex border border-slate-200 rounded-md px-5 py-2">
+        <label for="pageItemsSelect">Имя: </label>
+
+        <select name="pageItemsSelect" class="outline-none" v-model="sortIn">
+          <option value="asc">A-z</option>
+          <option value="desc">Z-a</option>
+          <option value="default">default</option>
+        </select>
+      </div>
+
       <div class="flex border border-slate-200 rounded-md px-5 py-2">
         <label for="pageItemsSelect">Кол-во элементов: </label>
 
