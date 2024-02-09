@@ -1,6 +1,6 @@
 <script setup>
-import Card from "@/components/Card.vue";
-import Pagination from "@/components/Pagination.vue";
+import Card from "../components/Card.vue";
+import Pagination from "../components/Pagination.vue";
 
 import { computed, onMounted, ref, watch } from "vue";
 import { getAllPokemonsAsync } from "../services/pokemonService.js";
