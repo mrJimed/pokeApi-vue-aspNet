@@ -2,6 +2,7 @@
 import Card from "../components/Card.vue";
 import Pagination from "../components/Pagination.vue";
 
+import debounce from "lodash.debounce";
 import { computed, onMounted, ref, watch } from "vue";
 import { getAllPokemonsAsync } from "../services/pokemonService.js";
 
@@ -10,6 +11,7 @@ const pagePokemons = ref([]);
 const currentPage = ref(1);
 const countPageItems = ref(12);
 const sortIn = ref("default");
+const searchPokemons = ref("");
 
 const pageCounts = computed(() =>
   Math.ceil(allPokemons.value.length / countPageItems.value)
@@ -53,8 +55,23 @@ function onChangeCurrentPage(newCurrentPage) {
 
 // Sort functions
 async function sortPokemonsAsync() {
-  allPokemons.value = await getAllPokemonsAsync(sortIn.value);
+  allPokemons.value = await getAllPokemonsAsync(
+    sortIn.value,
+    searchPokemons.value
+  );
   pagePokemons.value = allPokemons.value.slice(0, countPageItems.value);
+}
+
+// Search functions
+const onChangeInputAsync = debounce(async () => {
+  await sortPokemonsAsync();
+  currentPage.value = 1;
+}, 500);
+
+async function clearInputAsync() {
+  searchPokemons.value = "";
+  await sortPokemonsAsync();
+  currentPage.value = 1;
 }
 </script>
 
@@ -64,29 +81,49 @@ async function sortPokemonsAsync() {
       Список покемонов ({{ allPokemons.length }})
     </h2>
 
-    <div class="flex justify-between items-center gap-4 select-none">
-      <div class="flex border border-slate-200 rounded-md px-5 py-2">
-        <label for="pageItemsSelect">Имя: </label>
+    <div class="flex flex-col gap-2">
+      <div class="relative">
+        <input
+          class="border border-slate-200 rounded-md pl-5 pr-14 py-2 w-full outline-none placeholder:italic"
+          type="text"
+          placeholder="Поиск..."
+          v-model="searchPokemons"
+          @input="onChangeInputAsync"
+        />
 
-        <select name="pageItemsSelect" class="outline-none" v-model="sortIn">
-          <option value="asc">A-z</option>
-          <option value="desc">Z-a</option>
-          <option value="default">default</option>
-        </select>
+        <button
+          class="absolute top-1/2 right-4 -translate-y-1/2"
+          type="button"
+          @click="clearInputAsync"
+        >
+          <i class="fa-solid fa-eraser text-xl"></i>
+        </button>
       </div>
 
-      <div class="flex border border-slate-200 rounded-md px-5 py-2">
-        <label for="pageItemsSelect">Кол-во элементов: </label>
+      <div class="flex justify-between items-start gap-4 select-none">
+        <div class="flex border border-slate-200 rounded-md px-5 py-2">
+          <label for="pageItemsSelect">Имя: </label>
 
-        <select
-          name="pageItemsSelect"
-          class="outline-none"
-          v-model="countPageItems"
-        >
-          <option :value="12">12</option>
-          <option :value="16">16</option>
-          <option :value="20">20</option>
-        </select>
+          <select name="pageItemsSelect" class="outline-none" v-model="sortIn">
+            <option value="asc">A-z</option>
+            <option value="desc">Z-a</option>
+            <option value="default">default</option>
+          </select>
+        </div>
+
+        <div class="flex border border-slate-200 rounded-md px-5 py-2">
+          <label for="pageItemsSelect">Кол-во элементов: </label>
+
+          <select
+            name="pageItemsSelect"
+            class="outline-none"
+            v-model="countPageItems"
+          >
+            <option :value="12">12</option>
+            <option :value="16">16</option>
+            <option :value="20">20</option>
+          </select>
+        </div>
       </div>
     </div>
   </div>

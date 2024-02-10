@@ -2,8 +2,8 @@ import axios from "axios";
 
 const ROOT_ROUTE = '/pokemons'
 
-export async function getAllPokemonsAsync(sortIn) {
-    const { data: pokemons } = await axios.get(`${ROOT_ROUTE}?sortIn=${sortIn}`);
+export async function getAllPokemonsAsync(sortIn, startWith) {
+    const { data: pokemons } = await axios.get(`${ROOT_ROUTE}?sortIn=${sortIn}&startWith=${startWith}`);
     return pokemons;
 }
 
