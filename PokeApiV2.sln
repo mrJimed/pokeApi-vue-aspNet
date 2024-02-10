@@ -3,9 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34310.174
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokeApiV2.Server", "PokeApiV2.Server\PokeApiV2.Server.csproj", "{612B3C5A-8A06-4090-AEC2-31F6616E73FF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PokeApiV2.Server", "PokeApiV2.Server\PokeApiV2.Server.csproj", "{612B3C5A-8A06-4090-AEC2-31F6616E73FF}"
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "pokeapiv2.client", "pokeapiv2.client\pokeapiv2.client.esproj", "{D740FC1E-C2EB-479A-AEFD-5463009891CD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokeApiV2.Tests", "PokeApiV2.Tests\PokeApiV2.Tests.csproj", "{471B23E2-5FFB-4F10-9686-86605BDD611E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{612B3C5A-8A06-4090-AEC2-31F6616E73FF} = {612B3C5A-8A06-4090-AEC2-31F6616E73FF}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,6 +28,10 @@ Global
 		{D740FC1E-C2EB-479A-AEFD-5463009891CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D740FC1E-C2EB-479A-AEFD-5463009891CD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D740FC1E-C2EB-479A-AEFD-5463009891CD}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{471B23E2-5FFB-4F10-9686-86605BDD611E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{471B23E2-5FFB-4F10-9686-86605BDD611E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{471B23E2-5FFB-4F10-9686-86605BDD611E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{471B23E2-5FFB-4F10-9686-86605BDD611E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
