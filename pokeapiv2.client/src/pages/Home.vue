@@ -76,8 +76,8 @@ async function clearInputAsync() {
 </script>
 
 <template>
-  <div class="flex justify-between items-center mb-5">
-    <h2 class="text-2xl font-bold">
+  <div class="flex max-md:flex-col justify-between items-center mb-5">
+    <h2 class="text-2xl font-bold max-md:mb-2">
       Список покемонов ({{ allPokemons.length }})
     </h2>
 
@@ -100,7 +100,7 @@ async function clearInputAsync() {
         </button>
       </div>
 
-      <div class="flex justify-between items-start gap-4 select-none">
+      <div class="flex max-sm:flex-col-reverse max-sm:items-center justify-between items-start gap-4 select-none">
         <div class="flex border border-slate-200 rounded-md px-5 py-2">
           <label for="pageItemsSelect">Имя: </label>
 
@@ -128,7 +128,9 @@ async function clearInputAsync() {
     </div>
   </div>
 
-  <div class="grid grid-cols-4 gap-y-6 place-items-center mb-10">
+  <div
+    class="grid max-sm:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-y-6 place-items-center mb-10"
+  >
     <Card
       :id="pokemon.id"
       v-for="pokemon in pagePokemons"
@@ -137,6 +139,7 @@ async function clearInputAsync() {
   </div>
 
   <Pagination
+  class="max-md:mx-auto"
     :pageCounts="pageCounts"
     :currentPage="currentPage"
     @onNextPageClick="onNextPageClick"
