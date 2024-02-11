@@ -23,7 +23,7 @@ async function onLoginSubmitAsync() {
 
 <template>
   <form
-    class="w-1/3 bg-slate-100 px-4 pt-10 pb-7 border border-slate-400 rounded-md fixed top-1/4 left-1/2 -translate-x-1/2"
+    class="w-1/3 max-lg:w-1/2 max-sm:w-10/12 bg-slate-100 px-4 pt-10 pb-7 border border-slate-400 rounded-md fixed top-1/4 left-1/2 -translate-x-1/2"
     @submit.prevent="onLoginSubmitAsync"
   >
     <h2 class="font-bold text-center text-2xl border-b border-b-slate-300 pb-3">
