@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using PokeApiV2.Server.DbContexts;
@@ -15,9 +16,19 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Authentication
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.ExpireTimeSpan = TimeSpan.FromHours(2);
+        options.SlidingExpiration = true;
+    });
+
+
 // My services
 builder.Services.AddDbContext<PokeApiDbContext>(options => options.UseNpgsql(connectionString));
 builder.Services.AddSingleton<IPokemonService, PokemonService>();
+builder.Services.AddSingleton<IPasswordHelper, PasswordHelper>();
 
 var app = builder.Build();
 
