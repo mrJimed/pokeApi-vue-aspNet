@@ -1,16 +1,22 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using PokeApiV2.Server.DbContexts;
 using PokeApiV2.Server.Services.Classes;
 using PokeApiV2.Server.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Database config
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
+// Add services to the container.
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // My services
+builder.Services.AddDbContext<PokeApiDbContext>(options => options.UseNpgsql(connectionString));
 builder.Services.AddSingleton<IPokemonService, PokemonService>();
 
 var app = builder.Build();
