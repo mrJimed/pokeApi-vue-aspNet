@@ -18,6 +18,7 @@
 * C# .NET 8
 * ASP .NET Core MVC
 * Newtonsoft.Json
+* Entity Framework Core
 
 # Tests
 * xUnit
