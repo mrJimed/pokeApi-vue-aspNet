@@ -9,6 +9,7 @@ const store = useStore();
 
 const email = ref("");
 const password = ref("");
+const errorMessage = ref("");
 
 async function onLoginSubmitAsync() {
   try {
@@ -16,7 +17,10 @@ async function onLoginSubmitAsync() {
     store.dispatch("login", user.username);
     router.push({ name: "Home" });
   } catch (ex) {
-    console.log(ex);
+    const {
+      response: { data },
+    } = ex;
+    errorMessage.value = data;
   }
 }
 </script>
@@ -31,6 +35,13 @@ async function onLoginSubmitAsync() {
     </h2>
 
     <div class="flex flex-col gap-3 mt-4">
+      <p
+        v-if="errorMessage"
+        class="text-center font-bold bg-red-600 text-white py-2 rounded-md select-none cursor-pointer transition hover:bg-red-700"
+        @click="() => (errorMessage = '')"
+      >
+        {{ errorMessage }}
+      </p>
       <input
         required
         class="border border-slate-300 py-2 px-3 outline-none rounded-md transition focus:border-slate-400 placeholder:italic"
