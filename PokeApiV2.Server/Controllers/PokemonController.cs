@@ -6,14 +6,18 @@ namespace PokeApiV2.Server.Controllers
 {
     [Route("pokemons")]
     [ApiController]
-    public class PokemonController(IPokemonService pokemonService) : ControllerBase
+    public class PokemonController(IPokemonService pokemonService, ICacheService cacheService) : ControllerBase
     {
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetPokemonInfoAsync(int id)
         {
-            var pokemon = await pokemonService.GetPokemonInfoAsync(id);
+            if (cacheService.GetPokemonFromCache(id) is Pokemon pokemon)
+                return Ok(pokemon);
+
+            pokemon = await pokemonService.GetPokemonInfoAsync(id);
             if (pokemon == null)
                 return NotFound($"Покемон с Id = {id} не найден");
+            cacheService.AddPokemonToCache(pokemon);
             return Ok(pokemon);
         }
 

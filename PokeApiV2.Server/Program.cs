@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using PokeApiV2.Server.DbContexts;
 using PokeApiV2.Server.Services.Classes;
 using PokeApiV2.Server.Services.Interfaces;
@@ -9,6 +8,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Database config
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+// Redis config
+var redisConfig = builder.Configuration.GetSection("Redis:Configuration").Value;
+var redisInstanceName = builder.Configuration.GetSection("Redis:InstanceName").Value;
 
 // Add services to the container.
 builder.Services.AddControllers();
@@ -24,11 +27,17 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.SlidingExpiration = true;
     });
 
+// Redis cache
+builder.Services.AddStackExchangeRedisCache(options => {
+    options.Configuration = redisConfig;
+    options.InstanceName = redisInstanceName;
+});
 
 // My services
 builder.Services.AddDbContext<PokeApiDbContext>(options => options.UseNpgsql(connectionString));
 builder.Services.AddSingleton<IPokemonService, PokemonService>();
 builder.Services.AddSingleton<IPasswordHelper, PasswordHelper>();
+builder.Services.AddSingleton<ICacheService, CacheService>();
 
 var app = builder.Build();
 
