@@ -94,6 +94,7 @@ async function clearInputAsync() {
         <button
           class="absolute top-1/2 right-4 -translate-y-1/2"
           type="button"
+          title="Очистить"
           @click="clearInputAsync"
         >
           <i class="fa-solid fa-eraser text-xl"></i>
