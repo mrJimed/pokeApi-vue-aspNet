@@ -1,7 +1,7 @@
 import { createStore } from 'vuex'
 
 const state = {
-    user: localStorage.getItem('user')
+    user: sessionStorage.getItem('user')
 };
 
 const mutations = {
@@ -16,11 +16,11 @@ const mutations = {
 const actions = {
     login(ctx, user) {
         ctx.commit('login', user);
-        localStorage.setItem('user', user);
+        sessionStorage.setItem('user', user);
     },
     logout(ctx) {
         ctx.commit('logout');
-        localStorage.removeItem('user');
+        sessionStorage.removeItem('user');
     }
 };
 
