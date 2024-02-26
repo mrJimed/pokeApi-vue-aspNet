@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
+using Moq;
 using PokeApiV2.Server.Controllers;
 using PokeApiV2.Server.Models;
 using PokeApiV2.Server.Services.Classes;
+using PokeApiV2.Server.Services.Interfaces;
 using Xunit;
 
 namespace PokeApiV2.Tests
@@ -12,7 +14,8 @@ namespace PokeApiV2.Tests
 
         public PokemonControllerTests()
         {
-            pokemonController = new PokemonController(new PokemonService());
+            var cacheServiceMock = new Mock<ICacheService>();
+            pokemonController = new PokemonController(new PokemonService(), cacheServiceMock.Object);
         }
 
         [Fact]
