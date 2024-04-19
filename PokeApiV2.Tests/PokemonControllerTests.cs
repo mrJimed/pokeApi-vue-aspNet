@@ -48,5 +48,14 @@ namespace PokeApiV2.Tests
             Assert.NotNull(result);
             Assert.IsType<NotFoundObjectResult>(result);
         }
+
+        [Fact]
+        public async Task GetRandomPokemonIdAsyncTestAsync()
+        {
+            var randomId = await pokemonController.GetRandomPokemonIdAsync();
+
+            Assert.NotNull(randomId);
+            Assert.IsType<int>(randomId);
+        }
     }
 }
