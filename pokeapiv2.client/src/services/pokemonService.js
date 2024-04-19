@@ -11,3 +11,8 @@ export async function getPokemonInfoAsync(id) {
     const { data: pokemon } = await axios.get(`${ROOT_ROUTE}/${id}`);
     return pokemon;
 }
+
+export async function getRandomPokemonIdAsync() {
+    const { data: id } = await axios.get(`${ROOT_ROUTE}/random-id`);
+    return id;
+}

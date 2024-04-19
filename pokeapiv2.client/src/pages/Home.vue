@@ -21,7 +21,7 @@ onMounted(async () => {
   await sortPokemonsAsync();
 });
 
-// // watch on change sortIn variable
+// watch on change sortIn variable
 watch(sortIn, async () => {
   await sortPokemonsAsync();
   currentPage.value = 1;

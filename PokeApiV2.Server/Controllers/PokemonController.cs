@@ -31,5 +31,13 @@ namespace PokeApiV2.Server.Controllers
                 return pokemons.OrderByDescending(p => p.Name).ToList();
             return pokemons;
         }
+
+        [HttpGet("random-id")]
+        public async Task<int> GetRandomPokemonIdAsync()
+        {
+            var pokemons = await pokemonService.GetPokemonsAsync();
+            var index = new Random().Next(pokemons.Count);
+            return pokemons[index].Id;
+        }
     }
 }
