@@ -7,6 +7,7 @@
 * Поиск покемонов по имени
 * Кэширование полученных с API данных
 * Бои между покемонами
+* Сброс пароля
 
 # Frontend
 * Vue.js 3
@@ -21,6 +22,7 @@
 * ASP .NET Core MVC
 * Newtonsoft.Json
 * Entity Framework Core
+* MailKit
 
 # Tests
 * xUnit

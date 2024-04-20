@@ -13,6 +13,12 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 var redisConfig = builder.Configuration.GetSection("Redis:Configuration").Value;
 var redisInstanceName = builder.Configuration.GetSection("Redis:InstanceName").Value;
 
+// Mail config
+var fromEmail = builder.Configuration.GetSection("Mail:From").Value;
+var password = builder.Configuration.GetSection("Mail:Password").Value;
+var host = builder.Configuration.GetSection("Mail:Host").Value;
+var port = int.Parse(builder.Configuration.GetSection("Mail:Port").Value);
+
 // Add services to the container.
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -38,6 +44,7 @@ builder.Services.AddDbContext<PokeApiDbContext>(options => options.UseNpgsql(con
 builder.Services.AddSingleton<IPokemonService, PokemonService>();
 builder.Services.AddSingleton<IPasswordHelper, PasswordHelper>();
 builder.Services.AddSingleton<ICacheService, CacheService>();
+builder.Services.AddSingleton<IMailService>(new MailService(fromEmail, password, host, port));
 
 var app = builder.Build();
 

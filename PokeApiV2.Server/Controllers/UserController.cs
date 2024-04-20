@@ -54,5 +54,31 @@ namespace PokeApiV2.Server.Controllers
             ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "Cookies");
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
         }
+
+        [HttpPost("reset-password")]
+        public void ResetPassword(User resetPassword)
+        {
+            var user = dbContext.Users.First(u => u.Email.Equals(resetPassword.Email));
+            var newPassword = passwordHelper.CreateHashPassword(resetPassword.Password);
+            user.Password = newPassword.Item1;
+            user.Salt = Convert.ToBase64String(newPassword.Item2);
+            dbContext.SaveChanges();
+        }
+
+        [HttpPost("generate-reset-code")]
+        public async Task<IActionResult> GenerateResetPasswordCodeAsync(Message message, IMailService mailService)
+        {
+            if (dbContext.Users.FirstOrDefault(u => u.Email.Equals(message.ToEmail)) == null)
+                return BadRequest("Пользователя с таким email не существует");
+
+            var randomCode = new Random().Next(1000, 10_000);
+            await mailService.SendEmailAsync(new Message(
+                message.ToEmail,
+                "Сброс пароля PokeApi",
+                $"Код для восстановления пароля к сервису PokeApi: {randomCode}"
+                )
+            );
+            return Ok(randomCode);
+        }
     }
 }
